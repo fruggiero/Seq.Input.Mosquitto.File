@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Description>An app for Seq that pulls events from the Eclipse Mosquitto file log</Description>
+        <Authors>Federico Ruggiero</Authors>
+        <PackageTags>seq-app seq mosquitto mqtt</PackageTags>
+        <!-- <PackageProjectUrl>https://github.com/AntoineGa/Seq.App.Teams</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/AntoineGa/Seq.App.Teams</RepositoryUrl> -->
+        <RepositoryType>git</RepositoryType>
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+        <TreatSpecificWarningsAsErrors />
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <!-- <PackageIcon>microsoft-teams.png</PackageIcon> -->
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="Seq.Apps" Version="2021.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="../LICENSE" Pack="true" PackagePath="" />
+      <None Include="./obj/publish/**/*" Exclude="./obj/publish/$(MSBuildProjectName).dll;./obj/publish/Seq.Apps.dll;./obj/publish/Serilog.dll" Pack="true" PackagePath="lib/$(TargetFramework)" />
+    </ItemGroup>
+
+</Project>
