@@ -22,12 +22,6 @@ namespace Seq.Input.Mosquitto.File
             InputType = SettingInputType.Text)]
         public string LogFilePath { get; set; }
 
-        [SeqAppSetting(
-            DisplayName = "Log filter", 
-            HelpText = "An attribute name used to filter logs of Mosquitto", 
-            InputType = SettingInputType.Text)]
-        public string LogFilter { get; set; } = "Application";
-        
         private long _lastSize;
         private readonly Timer _timer = new Timer(500);
         private TextWriter _inputWriter;
@@ -54,6 +48,7 @@ namespace Seq.Input.Mosquitto.File
 
             _inputWriter = inputWriter;
             _timer.Start();
+            base.Log.Information($"CacheSizeFile: {cacheSizeFile}");
         }
 
         public void Stop()
@@ -93,7 +88,6 @@ namespace Seq.Input.Mosquitto.File
                         expando["@t"] = DateTimeOffset.FromUnixTimeSeconds(long.Parse(args[0].Trim())).UtcDateTime
                             .ToString("o");
                         expando["@mt"] = args[1];
-                        expando[LogFilter] = "Mosquitto";
                         _inputWriter.WriteLineAsync(JsonConvert.SerializeObject(expando));
                     }
                 }
