@@ -11,7 +11,7 @@ using Seq.Apps;
 
 namespace Seq.Input.Mosquitto.File
 {
-	using File = System.IO.File;
+    using File = System.IO.File;
 
     [SeqApp("Eclipse Mosquitto Input", Description = "Pulls from Eclipse Mosquitto log file")]
     public class MosquittoInput : SeqApp, IPublishJson
@@ -22,6 +22,14 @@ namespace Seq.Input.Mosquitto.File
             InputType = SettingInputType.Text)]
         public string LogFilePath { get; set; }
 
+        [SeqAppSetting(
+            DisplayName = "Config path",
+            HelpText = "The full path to Mosquitto config file. \nIf you use an external config file, with the " +
+                       "include_dir directive, and this file contains logging configuration (like, for example, the " +
+                       "'log_dest' directive), use this path instead",
+            InputType = SettingInputType.Text)]
+        public string ConfigPath { get; set; }
+        
         private long _lastSize;
         private readonly Timer _timer = new Timer(500);
         private TextWriter _inputWriter;
