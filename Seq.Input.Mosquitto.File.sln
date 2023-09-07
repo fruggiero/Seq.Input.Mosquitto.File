@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "_build", "build\_build.cspr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{F8F3B17B-005A-479E-B16C-3541E11C6D5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Seq.Input.Mosquitto.File.Test", "test\Seq.Input.Mosquitto.File.Test\Seq.Input.Mosquitto.File.Test.csproj", "{74355A8C-CC25-4828-A4D8-341F563611CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Seq.Input.Mosquitto.File.Test", "test\Seq.Input.Mosquitto.File.Test\Seq.Input.Mosquitto.File.Test.csproj", "{74355A8C-CC25-4828-A4D8-341F563611CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

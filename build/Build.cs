@@ -24,6 +24,7 @@ class Build : NukeBuild
     readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
     static AbsolutePath ArtifactsFolder => RootDirectory / "Artifacts";
+    static AbsolutePath PublishFolder => RootDirectory / "Seq.Input.Mosquitto.File" / "obj" / "publish";
     
     Target Clean => _ => _
         .Before(Restore)
@@ -46,7 +47,7 @@ class Build : NukeBuild
         {
             DotNetTasks.DotNetPublish(_ => _
                 .SetConfiguration(Configuration.Release)
-                .SetOutput(".obj/publish")
+                .SetOutput(PublishFolder)
                 .SetProperty("Version", NerdbankVersioning.NuGetPackageVersion)
             );
 

@@ -2,7 +2,7 @@
 
 namespace Seq.Input.Mosquitto.File
 {
-    public class ConfigParser
+    internal class ConfigParser : IConfigParser
     {
         private readonly IFileSystem _fs;
 

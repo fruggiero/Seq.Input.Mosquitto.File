@@ -5,8 +5,8 @@
         <Description>An app for Seq that pulls events from the Eclipse Mosquitto file log</Description>
         <Authors>Federico Ruggiero</Authors>
         <PackageTags>seq-app seq mosquitto mqtt</PackageTags>
-        <!-- <PackageProjectUrl>https://github.com/AntoineGa/Seq.App.Teams</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/AntoineGa/Seq.App.Teams</RepositoryUrl> -->
+        <PackageProjectUrl>https://github.com/fruggiero/Seq.Input.Mosquitto.File</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/fruggiero/Seq.Input.Mosquitto.File</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
         <TreatSpecificWarningsAsErrors />
@@ -17,13 +17,18 @@
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
       <PackageReference Include="Seq.Apps" Version="2021.4.0" />
-      <PackageReference Include="StrftimeParser" Version="0.1.1" />
-      <PackageReference Include="System.IO.Abstractions" Version="19.2.61" />
+      <PackageReference Include="StrftimeParser" Version="1.0.1" />
+      <PackageReference Include="System.IO.Abstractions" Version="16.1.25" />
+      <PackageReference Include="System.Reactive" Version="5.0.0" />
     </ItemGroup>
 
     <ItemGroup>
       <None Include="../LICENSE" Pack="true" PackagePath="" />
       <None Include="./obj/publish/**/*" Exclude="./obj/publish/$(MSBuildProjectName).dll;./obj/publish/Seq.Apps.dll;./obj/publish/Serilog.dll" Pack="true" PackagePath="lib/$(TargetFramework)" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Properties\" />
     </ItemGroup>
 
 </Project>
