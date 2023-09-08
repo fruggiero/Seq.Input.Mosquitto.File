@@ -11,9 +11,13 @@
 
   <ItemGroup>
     <None Remove="Static\mosquitto.conf" />
+    <None Remove="Static\no_filepath.conf" />
+    <None Remove="Static\no_format.conf" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Static\no_filepath.conf" />
+    <EmbeddedResource Include="Static\no_format.conf" />
     <EmbeddedResource Include="Static\mosquitto.conf" />
   </ItemGroup>
 

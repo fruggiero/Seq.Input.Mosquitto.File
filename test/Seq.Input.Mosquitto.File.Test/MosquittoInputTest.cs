@@ -2,7 +2,6 @@ using System.Dynamic;
 using System.Globalization;
 using System.IO.Abstractions.TestingHelpers;
 using AutoFixture;
-using FluentAssertions;
 using Microsoft.Reactive.Testing;
 using Newtonsoft.Json;
 
@@ -95,20 +94,6 @@ public class MosquittoInputTest
         // assert
         _writer.Received().WriteLineAsync(Arg.Is<string>(x => x == firstString));
         _writer.Received().WriteLineAsync(Arg.Is<string>(x => x == secondString));
-    }
-
-    [Fact]
-    public void Should_ClearFile_WhenLimitReached()
-    {
-        // Arrange
-        _fs.AddFile(_sut.LogFilePath, new MockFileData(new byte[15010000]));
-        _sut.Start(_writer);
-
-        // Act
-        _testScheduler.AdvanceBy(TimeSpan.FromMilliseconds(500).Ticks);
-
-        // Assert
-        _fs.File.Open(_sut.LogFilePath, FileMode.Open).Length.Should().Be(0);
     }
 
     private static IDictionary<string, object> GetExpando(string dtString, string message)

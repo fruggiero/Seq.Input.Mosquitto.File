@@ -22,24 +22,15 @@ namespace Seq.Input.Mosquitto.File
     {
         [SeqAppSetting(
             DisplayName = "Log file path",
-            HelpText = "The full path to Mosquitto log file",
+            HelpText = "The full path to Mosquitto log file.",
             InputType = SettingInputType.Text)]
         public string LogFilePath { get; set; }
 
         [SeqAppSetting(
             DisplayName = "Config path",
-            HelpText = "The full path to Mosquitto config file. \nIf you use an external config file, with the " +
-                       "include_dir directive, and this file contains logging configuration (like, for example, the " +
-                       "'log_dest' directive), use this path instead",
+            HelpText = "The full path of the configuration file, which contains the log_dest and log_timestamp_format directives.",
             InputType = SettingInputType.Text)]
         public string ConfigPath { get; set; }
-
-        [SeqAppSetting(
-            DisplayName = "Clear above size",
-            HelpText = "Size in bytes above which the log file will be cleared",
-            InputType = SettingInputType.Integer
-        )]
-        public long ClearAboveSize { get; set; } = 15000000; // 15 MB
 
         private readonly IScheduler _scheduler;
         private readonly IFileSystem _fs;
@@ -121,7 +112,7 @@ namespace Seq.Input.Mosquitto.File
                     return;
                 }
 
-                using (var fs = _fs.File.Open(LogFilePath, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
+                using (var fs = _fs.File.Open(LogFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
                 {
                     var toRead = fs.Length - _lastSize;
                     _lastSize = fs.Length;
@@ -133,26 +124,24 @@ namespace Seq.Input.Mosquitto.File
                     var lines = str.Split('\n');
                     foreach (var line in lines)
                     {
+                        DateTime dtPart;
                         try
                         {
-                            var dtPart = Strftime.Parse(line, _config.Format);
-                            var len = Strftime.ToString(dtPart, _config.Format).Length;
-
-                            var expando = new ExpandoObject() as IDictionary<string, object>;
-                            if (line.Trim().Length < 1) continue;
-                            expando["@t"] = dtPart.ToString("o");
-                            expando["@mt"] = line.Substring(len + 2, line.Length - len - 2);
-                            _inputWriter.WriteLineAsync(JsonConvert.SerializeObject(expando));
+                            dtPart = Strftime.Parse(line, _config.Format);
                         }
                         catch (Exception ex)
                         {
                             _loggerProvider.Log.Error(ex, "Parsing error");
+                            continue;
                         }
-                    }
 
-                    if (_lastSize > ClearAboveSize)
-                    {
-                        fs.SetLength(0);
+                        var len = Strftime.ToString(dtPart, _config.Format).Length;
+
+                        var expando = new ExpandoObject() as IDictionary<string, object>;
+                        if (line.Trim().Length < 1) continue;
+                        expando["@t"] = dtPart.ToString("o");
+                        expando["@mt"] = line.Substring(len + 2, line.Length - len - 2);
+                        _inputWriter.WriteLineAsync(JsonConvert.SerializeObject(expando));
                     }
                 }
             }

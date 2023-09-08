@@ -1,4 +1,6 @@
-﻿using System.IO.Abstractions;
+﻿using System;
+using System.IO.Abstractions;
+using Seq.Input.Mosquitto.File.Exceptions;
 
 namespace Seq.Input.Mosquitto.File
 {
@@ -36,6 +38,17 @@ namespace Seq.Input.Mosquitto.File
                     }
                 }
             }
+
+            if (result.Format == null)
+            {
+                throw new MissingDirectiveException("log_timestamp_format directive not found");
+            }
+
+            if (result.LogFilePath == null)
+            {
+                throw new MissingDirectiveException("log_dest directive not found");
+            }
+
             return result;
         }
 
